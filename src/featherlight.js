@@ -77,7 +77,12 @@
 		/* you can access and override all methods using $.featherlight.methods */
 		methods: {
 			/* setup iterates over a single instance of featherlight and prepares the background and binds the events */
-			setup: function(config, content){
+			setup: function(content, config){
+				/* all arguments are optional */
+				if (typeof content === 'object' && content instanceof $ === false && !config) {
+					config = content;
+					content = undefined;
+				}
 				config = $.extend({}, fl.defaults, config);
 
 				var $elm = $(this) || $(),
@@ -205,21 +210,21 @@
 	};
 
 	/* extend jQuery with standalone featherlight method  $.featherlight(elm, config); */
-	$.featherlight = function($content, config) {
+	$.featherlight = function(content, config) {
 		/* if $.featherlight() was called only with config or without anything, initialize manually */
-		if(typeof $content !== 'string' && $content instanceof $ === false){
-			config = typeof $content === 'Object' ? $.extend({}, fl.defaults, $content) : fl.defaults;
+		if(typeof content !== 'string' && content instanceof $ === false){
+			config = typeof content === 'Object' ? $.extend({}, fl.defaults, content) : fl.defaults;
 
 			$(config.selector, config.context).featherlight();
 		} else {
-			fl.methods.setup.call(null, config, $content);
+			fl.methods.setup.call(null, content, config);
 		}
 	};
 
-	/* extend jQuery with selector featherlight method $(elm).featherlight(config, elm); */
-	$.fn.featherlight = function(config, $content) {
+	/* extend jQuery with selector featherlight method $(elm).featherlight(elm, config); */
+	$.fn.featherlight = function(content, config) {
 		$(this).each(function(){
-			fl.methods.setup.call(this, config, $content);
+			fl.methods.setup.call(this, content, config);
 		});
 	};
 
