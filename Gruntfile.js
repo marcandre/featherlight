@@ -142,6 +142,23 @@ module.exports = function(grunt) {
 				/*pushTo: 'upstream',*/
 				/*gitDescribeOptions: '--tags --always --abbrev=1 --dirty=-d' // options to use with '$ git describe'*/
 			}
+		},
+		bower: {
+			options: {
+				clean: true
+			},
+			tests: {
+				options: {
+					destPrefix: "test/libs"
+				},
+				files: {
+					"qunit": "qunit/qunit",
+					"require.js": "requirejs/require.js"
+				}
+			}
+		},
+		qunit: {
+			files: ['test/index.html']
 		}
 	});
 
